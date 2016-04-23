@@ -1,6 +1,5 @@
 //
-//  BWSTaskRequest2.swift
-//  TheGalaxy
+//  BWSTaskRequest.swift
 //
 //  Created by Sean Young on 11/13/15.
 //  Copyright © 2015 Sean G Young. All rights reserved.
@@ -8,32 +7,33 @@
 
 import Foundation
 
-class BWSTaskRequest<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableObject> {
+public class BWSTaskRequest<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableObject> {
     
     // MARK: - Initialization
     
-    convenience init(method: HTTPVerb, fullUrl: NSURL, completed: (result: BWSRequestResult<T, U>) -> Void) {
+    public convenience init(method: HTTPVerb, fullUrl: NSURL, completed: (result: BWSRequestResult<T, U>) -> Void) {
         self.init(method: method, fullUrl: fullUrl)
         completedCallback = completed
     }
     
-    init(method: HTTPVerb, fullUrl: NSURL) {
+    public init(method: HTTPVerb, fullUrl: NSURL) {
         self.method = method
         self.url = fullUrl
     }
     
     // MARK: - Properties
     
-    let method: HTTPVerb
-    let url: NSURL
+    public let method: HTTPVerb
+    public let url: NSURL
     
-    var additionalHeaders: [String: String]?
-    var requestObject: BWSJSONSerializableObject?
+    public var additionalHeaders: [String: String]?
+    public var requestObject: BWSJSONSerializableObject?
     
-    var completedCallback: ((result: BWSRequestResult<T, U>) -> Void)?
+    public var completedCallback: ((result: BWSRequestResult<T, U>) -> Void)?
     
     // MARK: - Methods
     
-    func setCompletedCallback(callback: ((result: BWSRequestResult<T, U>) -> Void)?) { completedCallback = callback }
-    
+    public func setCompletedCallback(callback: ((result: BWSRequestResult<T, U>) -> Void)?) {
+        completedCallback = callback
+    }
 }

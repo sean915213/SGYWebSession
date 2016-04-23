@@ -8,10 +8,10 @@
 
 import Foundation
 
-protocol BWSJSONDeserializableObject {
+public protocol BWSJSONDeserializableObject {
     static func fromJSONData(data: NSData) throws -> Self
 }
 
-protocol BWSJSONSerializableObject {
+public protocol BWSJSONSerializableObject {
     func JSONData() throws -> NSData
 }

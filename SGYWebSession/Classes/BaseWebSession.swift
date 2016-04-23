@@ -1,44 +1,16 @@
 //
-//  BaseServiceWebSession.swift
-//  JarusInsuranceApp
+//  BaseWebSession.swift
 //
 //  Created by Sean G Young on 12/13/14.
-//  Copyright (c) 2014 Jarus Technologies. All rights reserved.
+//  Copyright © 2014 Sean G Young. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import SGYSwiftUtility
 
-// MARK: - Web Related Enumerations
 
-enum HTTPVerb : String, CustomStringConvertible {
-    case DELETE = "DELETE", GET = "GET", POST = "POST", PUT = "PUT"
-    
-    var description: String { return rawValue }
-}
-
-enum HTTPHeader : String, CustomStringConvertible {
-    case Authorization = "Authorization",
-    AcceptContentType = "Accept",
-    RequestContentType = "Content-Type"
-    
-    var description: String { return rawValue }
-}
-
-// Enum with mimetypes
-enum MimeType: String, CustomStringConvertible {
-    case HTML = "text/html",
-    JSON = "application/json",
-    PDF = "application/pdf"
-    
-    var description: String { return rawValue }
-}
-
-// MARK: - Class Implementation
-
-@objc(BaseWebSession)
-class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
+public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     // MARK: Static Properties
     
@@ -47,7 +19,7 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     // MARK: Class Methods
     
-    class func defaultJSONSessionConfiguration() -> NSURLSessionConfiguration {
+    public class func defaultJSONSessionConfiguration() -> NSURLSessionConfiguration {
         var jsonHeaders = [NSObject : AnyObject]()
         jsonHeaders[HTTPHeader.AcceptContentType.rawValue] = MimeType.JSON.rawValue
         jsonHeaders[HTTPHeader.RequestContentType.rawValue] = MimeType.JSON.rawValue
@@ -68,7 +40,7 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     // MARK: Initialization
     
-    init(callbackQueue: NSOperationQueue, sessionConfig: NSURLSessionConfiguration) {
+    public init(callbackQueue: NSOperationQueue, sessionConfig: NSURLSessionConfiguration) {
         self.callbackQueue = callbackQueue
         super.init()
         urlSession = NSURLSession(configuration: sessionConfig, delegate: self, delegateQueue: operationQueue)
@@ -104,8 +76,13 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         return queue
     }()
     
+    // List of task operations
+    private var taskOperations: BWSTaskOperation {
+        return operationQueue.operations.filter({ $0 is BWSTaskOperation }).map { $0 as! BWSTaskOperation }
+    }
+    
     // An instance for logging.
-    lazy var logger: Logger = {
+    private lazy var logger: Logger = {
         let logger = Logger(contextDescription: NSStringFromClass(self.dynamicType.self))
         return logger
     }()
@@ -133,7 +110,9 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     func cancelTask(taskId: String) -> Bool {
         // Attempt finding operation with the provided taskId
-        guard let taskOperation = operationQueue.operations.find({ $0.name == taskId }) else { return false }
+        guard let taskOperation = operationQueue.operations.find({ $0.name == taskId }) else {
+            return false
+        }
         // Cancel and return
         taskOperation.cancel()
         return true
@@ -160,7 +139,7 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         
         // Assign id to task as name
         operation.name = reservedId
-        
+        // Assign object for request body
         operation.requestObject = request.requestObject
         
         // Begin execution
@@ -215,12 +194,8 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
 
         NSLog("UNAUTHORIZED HEARD IN SESSION")
         
-        // Find all operations and cancel due to challenge
-        for operation in operationQueue.operations {
-            guard let bwsOperation = operation as? BWSOperation else { continue }
-            bwsOperation.cancelForUnauthorized()
-        }
-        
+        // Cancel all operations
+        taskOperations.forEach { $0.cancelForUnauthorized() }
         // Cancel challenge
         completionHandler(.CancelAuthenticationChallenge, nil)
     }
@@ -231,14 +206,12 @@ class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
         
         NSLog("UNAUTHORIZED HEARD IN TASK")
         
-        // Find the relevant operation and cancel it for unauthorized
-        for operation in operationQueue.operations {
-            guard let bwsOperation = operation as? BWSOperation where bwsOperation.sessionTask == task else { continue }
-            bwsOperation.cancelForUnauthorized()
-            break
-        }
-
-        // Cancel challenge.
-        completionHandler(.CancelAuthenticationChallenge, nil)
+        // We're going to cancel regardless
+        defer { completionHandler(.CancelAuthenticationChallenge, nil) }
+        
+        // Find the relevant operation and cancel.  
+        // It's possible it does not exist in rare circumstances where, for example, it was canceled immediately after receiving this challenge.
+        guard let operation = taskOperations.find({ $0.sessionTask == task }) else { return }
+        operation.cancelForUnauthorized()
     }
 }
