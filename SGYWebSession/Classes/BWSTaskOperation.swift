@@ -9,7 +9,13 @@
 import UIKit
 import SGYSwiftUtility
 
-class BWSTaskOperation<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableObject> : AsyncOperation {
+// Protocol *greatly* simplifies working w/ BWSTaskOperation when deserialized types are unimportant
+protocol BWSOperation: class {
+    var sessionTask: NSURLSessionTask? { get }
+    func cancelForUnauthorized()
+}
+
+class BWSTaskOperation<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableObject> : AsyncOperation, BWSOperation {
 
     // MARK: - Initialization
 

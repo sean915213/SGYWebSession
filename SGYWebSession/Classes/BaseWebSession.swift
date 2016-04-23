@@ -77,8 +77,8 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     }()
     
     // List of task operations
-    private var taskOperations: BWSTaskOperation {
-        return operationQueue.operations.filter({ $0 is BWSTaskOperation }).map { $0 as! BWSTaskOperation }
+    private var taskOperations: [BWSOperation] {
+        return operationQueue.operations.filter({ $0 is [BWSOperation] }).map { $0 as! [BWSOperation] }
     }
     
     // An instance for logging.
@@ -88,19 +88,19 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     }()
     
     // The QoS for our request operations
-    var qualityOfService: NSQualityOfService = .Background {
+    public var qualityOfService: NSQualityOfService = .Background {
         didSet { operationQueue.qualityOfService = qualityOfService }
     }
     
     // MARK: - Methods
     // MARK: Public Methods
     
-    func invalidateAndCancel() {
+    public func invalidateAndCancel() {
         cancelAllTasks()
         urlSession.invalidateAndCancel()
     }
     
-    func cancelAllTasks() {
+    public func cancelAllTasks() {
         // Decrement active tasks for each operation
         for operation in operationQueue.operations {
             BaseWebSession.incrementActiveTasks(false)
@@ -108,7 +108,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
         }
     }
     
-    func cancelTask(taskId: String) -> Bool {
+    public func cancelTask(taskId: String) -> Bool {
         // Attempt finding operation with the provided taskId
         guard let taskOperation = operationQueue.operations.find({ $0.name == taskId }) else {
             return false
@@ -118,11 +118,11 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
         return true
     }
     
-    func reserveTaskId() -> String {
+    public func reserveTaskId() -> String {
         return NSUUID().UUIDString
     }
     
-    func beginRequest<T, U>(request: BWSTaskRequest<T, U>) -> String {
+    public func beginRequest<T, U>(request: BWSTaskRequest<T, U>) -> String {
         // Reserve an id for this task
         let taskId = reserveTaskId()
         // Begin task
@@ -130,7 +130,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
         return taskId
     }
     
-    func beginRequest<T, U>(request: BWSTaskRequest<T, U>, reservedId: String) {
+    public func beginRequest<T, U>(request: BWSTaskRequest<T, U>, reservedId: String) {
         // Construct url request
         let urlRequest = constructUrlRequest(request)
         
@@ -190,7 +190,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     
     // MARK: NSURLSessionDelegate Implementation
     
-    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    public func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
 
         NSLog("UNAUTHORIZED HEARD IN SESSION")
         
@@ -202,7 +202,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     
     // MARK: NSURLSessionTaskDelegate Implementation
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         
         NSLog("UNAUTHORIZED HEARD IN TASK")
         
