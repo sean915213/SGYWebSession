@@ -70,7 +70,7 @@ public class BWSRequestResult<T, U> {
     }()
     
     public lazy var responseUTI: String? = {
-        guard let mimeType = urlHTTPResponse?.MIMEType, utiType = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType, nil) else { return nil }
+        guard let mimeType = self.HTTPResponse?.MIMEType, utiType = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType, nil) else { return nil }
         return utiType.takeUnretainedValue() as String
     }()
     
