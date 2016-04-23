@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '881F54A987AA9BFAAFDD9AAF'
+               BlueprintIdentifier = '93C7DFC83917AC7D50B6638E'
                BlueprintName = 'SGYWebSession'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SGYWebSession.framework'>

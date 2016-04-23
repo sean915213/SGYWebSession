@@ -10,7 +10,7 @@ import Foundation
 
 extension CollectionType {
     
-     /**
+    /**
      Returns the first value passing the test represented by `predicate`.
      
      - parameter predicate: A function that returns `Bool` to indicate whether the test is passed or not.
@@ -22,6 +22,17 @@ extension CollectionType {
     public func find(@noescape predicate: (Generator.Element) throws -> Bool) rethrows -> Generator.Element? {
         guard let index = try indexOf(predicate) else { return nil }
         return self[index]
+    }
+}
+
+extension Array {
+    
+    /**
+     Returns an array of values that could be cast to `T`.
+     - returns: An array of values that could be cast to `T`.
+     */
+    public func typeOf<T>() -> [T] {
+        return filter({ $0 is T }).map { $0 as! T }
     }
 }
 
@@ -40,6 +51,14 @@ extension Set {
         var mappedSet = Set<T>()
         for obj in self { mappedSet.insert(try transform(obj)) }
         return mappedSet
+    }
+    
+    /**
+     Returns a `Set` of values that could be cast to `T`.
+     - returns: A `Set` of values that could be cast to `T`.
+     */
+    public func typeOf<T>() -> Set<T> {
+        return Set<T>(filter({ $0 is T }).map { $0 as! T })
     }
 }
 
