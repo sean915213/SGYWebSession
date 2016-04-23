@@ -1,0 +1,24 @@
+{
+  "name": "SGYWebSession",
+  "version": "0.1.0",
+  "summary": "A short description of SGYWebSession.",
+  "description": "",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SGYWebSession",
+  "license": "MIT",
+  "authors": {
+    "Sean G. Young": "sean.g.young@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SGYWebSession.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SGYWebSession/Classes/**/*",
+  "resource_bundles": {
+    "SGYWebSession": [
+      "SGYWebSession/Assets/*.png"
+    ]
+  }
+}

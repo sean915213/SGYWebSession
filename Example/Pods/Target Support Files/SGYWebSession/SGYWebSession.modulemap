@@ -1,0 +1,6 @@
+framework module SGYWebSession {
+  umbrella header "SGYWebSession-umbrella.h"
+
+  export *
+  module * { export * }
+}
