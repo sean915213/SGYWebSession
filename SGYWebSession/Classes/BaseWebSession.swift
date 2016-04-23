@@ -78,7 +78,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     
     // List of task operations
     private var taskOperations: [BWSOperation] {
-        return operationQueue.operations.typeOf<BWSOperation>()
+        return operationQueue.operations.typeOf()
     }
     
     // An instance for logging.
