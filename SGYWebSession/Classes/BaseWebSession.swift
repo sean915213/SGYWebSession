@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SGYSwiftUtility
 
-
+// NOTE: NSObject inheritence is easy way to conform to  NSObjectProtocol required by NSURLSession delegation
 public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate {
     
     // MARK: Static Properties
@@ -188,9 +188,6 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     // MARK: NSURLSessionDelegate Implementation
     
     public func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-
-        NSLog("UNAUTHORIZED HEARD IN SESSION")
-        
         // Cancel all operations
         taskOperations.forEach { $0.cancelForUnauthorized() }
         // Cancel challenge
@@ -200,15 +197,10 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     // MARK: NSURLSessionTaskDelegate Implementation
     
     public func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-        
-        NSLog("UNAUTHORIZED HEARD IN TASK")
-        
-        // We're going to cancel regardless
-        defer { completionHandler(.CancelAuthenticationChallenge, nil) }
-        
         // Find the relevant operation and cancel.  
         // It's possible it does not exist in rare circumstances where, for example, it was canceled immediately after receiving this challenge.
-        guard let operation = taskOperations.find({ $0.sessionTask == task }) else { return }
-        operation.cancelForUnauthorized()
+        if let operation = taskOperations.find({ $0.sessionTask == task }) { operation.cancel() }
+        // Cancel challenge
+        completionHandler(.CancelAuthenticationChallenge, nil)
     }
 }

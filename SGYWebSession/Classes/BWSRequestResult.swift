@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MobileCoreServices
 
 public enum BWSResultStatus: String, CustomStringConvertible {
     case OK = "OK",
@@ -66,6 +67,11 @@ public class BWSRequestResult<T, U> {
     public lazy var responseMimeType: MimeType? = {
         guard let mimeType = self.HTTPResponse?.MIMEType else { return nil }
         return MimeType(rawValue: mimeType)
+    }()
+    
+    public lazy var responseUTI: String? = {
+        guard let mimeType = urlHTTPResponse?.MIMEType, utiType = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType, nil) else { return nil }
+        return utiType.takeUnretainedValue() as String
     }()
     
     public lazy var status: BWSResultStatus = {
