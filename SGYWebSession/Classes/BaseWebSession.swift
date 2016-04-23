@@ -101,11 +101,8 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     }
     
     public func cancelAllTasks() {
-        // Decrement active tasks for each operation
-        for operation in operationQueue.operations {
-            BaseWebSession.incrementActiveTasks(false)
-            operation.cancel()
-        }
+        // Cancel all task operations
+        taskOperations.forEach { $0.cancel() }
     }
     
     public func cancelTask(taskId: String) -> Bool {

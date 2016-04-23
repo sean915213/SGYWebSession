@@ -12,6 +12,7 @@ import SGYSwiftUtility
 // Protocol *greatly* simplifies working w/ BWSTaskOperation when deserialized types are unimportant
 protocol BWSOperation: class {
     var sessionTask: NSURLSessionTask? { get }
+    func cancel()
     func cancelForUnauthorized()
 }
 
