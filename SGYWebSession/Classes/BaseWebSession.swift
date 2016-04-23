@@ -78,7 +78,7 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     
     // List of task operations
     private var taskOperations: [BWSOperation] {
-        return operationQueue.operations.filter({ $0 is [BWSOperation] }).map { $0 as! [BWSOperation] }
+        return operationQueue.operations.filter({ $0 is [BWSOperation] }).map { $0 as! BWSOperation }
     }
     
     // An instance for logging.
