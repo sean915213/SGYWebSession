@@ -22,7 +22,7 @@ public enum BWSResultStatus: String, CustomStringConvertible {
     Cancelled = "Cancelled",
     OtherError = "OtherError"
     
-    public var description: String { return "\(rawValue)" }
+    public var description: String { return rawValue }
 }
 
 public class BWSRequestResult<T, U> {
