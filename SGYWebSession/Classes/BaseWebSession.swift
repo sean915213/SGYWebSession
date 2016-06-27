@@ -146,24 +146,14 @@ public class BaseWebSession: NSObject, NSURLSessionDelegate, NSURLSessionTaskDel
     // MARK: Private Methods
     
     private func constructUrlRequest<T, U>(taskRequest: BWSTaskRequest<T, U>) -> NSMutableURLRequest {
-        
         // Create a mutable url request
         let urlRequest = NSMutableURLRequest(URL: taskRequest.url)
         // Assign method
         urlRequest.HTTPMethod = taskRequest.method.rawValue
-        
-        // WORKAROUND: Bug in iOS 8.3 that causes the NSURLSessionConfiguration's HTTPAdditionalHeaders to NOT be properly sent with request.  So must merge them in here.
-        // MUST do this before assigning additional headers from request because the session config is supposed to be over-written by more specific headers set on the request object.
-//        if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
-//            if let configHeaders = urlSession.configuration.HTTPAdditionalHeaders as? [String: String] {
-//                for (header, val) in configHeaders { urlRequest.setValue(val, forHTTPHeaderField: header) }
-//            }
-//        }
-        
         // Add additional headers
         taskRequest.additionalHeaders?.forEach { urlRequest.setValue($0.1, forHTTPHeaderField: $0.0) }
         
-        return urlRequest;
+        return urlRequest
     }
     
     private func beginOperation<T, U>(operation: BWSTaskOperation<T, U>, completionBlock: (() -> Void)?) {

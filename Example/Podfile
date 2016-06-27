@@ -1,8 +1,6 @@
 use_frameworks!
-
-
-target 'SGYWebSession_Tests', :exclusive => true do
+target 'SGYWebSession_Tests' do
   pod 'SGYWebSession', :path => '../'
-
-  pod 'SGYSwiftUtility', :git => 'https://github.com/sean915213/SGYSwiftUtility.git'
+  
+  pod 'SGYSwiftUtility', :git => 'https://github.com/sean915213/
 end

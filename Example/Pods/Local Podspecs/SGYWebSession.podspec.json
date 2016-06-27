@@ -2,9 +2,12 @@
   "name": "SGYWebSession",
   "version": "0.1.0",
   "summary": "A short description of SGYWebSession.",
-  "description": "",
+  "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/<GITHUB_USERNAME>/SGYWebSession",
-  "license": "MIT",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
   "authors": {
     "Sean G. Young": "sean.g.young@gmail.com"
   },
@@ -15,10 +18,5 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SGYWebSession/Classes/**/*",
-  "resource_bundles": {
-    "SGYWebSession": [
-      "SGYWebSession/Assets/*.png"
-    ]
-  }
+  "source_files": "SGYWebSession/Classes/**/*"
 }
