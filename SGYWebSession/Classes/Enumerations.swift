@@ -9,24 +9,24 @@
 import Foundation
 
 public enum HTTPVerb : String, CustomStringConvertible {
-    case DELETE = "DELETE", GET = "GET", POST = "POST", PUT = "PUT"
+    case delete = "DELETE", get = "GET", post = "POST", put = "PUT"
     
     public var description: String { return rawValue }
 }
 
 public enum HTTPHeader : String, CustomStringConvertible {
-    case Authorization = "Authorization",
-    AcceptContentType = "Accept",
-    RequestContentType = "Content-Type"
+    case authorization = "Authorization",
+    acceptContentType = "Accept",
+    requestContentType = "Content-Type"
     
     public var description: String { return rawValue }
 }
 
 // Enum with mimetypes
 public enum MimeType: String, CustomStringConvertible {
-    case HTML = "text/html",
-    JSON = "application/json",
-    PDF = "application/pdf"
+    case html = "text/html",
+    json = "application/json",
+    pdf = "application/pdf"
     
     public var description: String { return rawValue }
 }
@@ -34,11 +34,11 @@ public enum MimeType: String, CustomStringConvertible {
 
 // Enum with relevant NSError result codes
 public enum URLTaskNSErrorCode: Int {
-    case Cancelled = -999,
-    ConnectionTimedOut = -1001,
-    CannotConnectToHost = -1004,
-    LostConnection = -1005,
-    ConnectionUnavailable = -1009
+    case cancelled = -999,
+    connectionTimedOut = -1001,
+    cannotConnectToHost = -1004,
+    lostConnection = -1005,
+    connectionUnavailable = -1009
 }
 
 // Codes obtained from W3C spec: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -46,50 +46,50 @@ public enum URLTaskNSErrorCode: Int {
 public enum HTTPStatusCode: Int, CustomStringConvertible {
     // Informational
     case Continue = 100,
-    SwitchingProtocols = 101,
+    switchingProtocols = 101,
     // Success
-    Success = 200,
-    Created = 201,
-    Accepted = 202,
-    NonAuthoritativeInformation = 203,
-    NoContent = 204,
-    ResetContent = 205,
-    PartialContent = 206,
+    success = 200,
+    created = 201,
+    accepted = 202,
+    nonAuthoritativeInformation = 203,
+    noContent = 204,
+    resetContent = 205,
+    partialContent = 206,
     // Redirection
-    MultipleChoices = 300,
-    MovedPermanently = 301,
-    Found = 302,
-    SeeOther = 303,
-    NotModified = 304,
-    UseProxy = 305,
-    __Unused = 306, // Not used in HTTP 1.1 spec
-    TemporaryRedirect = 307,
+    multipleChoices = 300,
+    movedPermanently = 301,
+    found = 302,
+    seeOther = 303,
+    notModified = 304,
+    useProxy = 305,
+    __unused = 306, // Not used in HTTP 1.1 spec
+    temporaryRedirect = 307,
     // Client Error
-    BadRequest = 400,
-    Unauthorized = 401,
-    __PaymentRequired = 402, // Reserved for future use per HTTP 1.1 spec
-    Forbidden = 403,
-    NotFound = 404,
-    MethodNotAllowed = 405,
-    NotAcceptable = 406,
-    ProxyAuthenticationRequired = 407,
-    RequestTimedOut = 408,
-    Conflict = 409,
-    Gone = 410,
-    LengthRequired = 411,
-    PreconditionFailed = 412,
-    RequestEntityTooLarge = 413,
-    RequestURITooLong = 414,
-    UnsupportedMediaType = 415,
-    RequestedRangeNotSatisfiable = 416,
-    ExpectationFailed = 417,
+    badRequest = 400,
+    unauthorized = 401,
+    __paymentRequired = 402, // Reserved for future use per HTTP 1.1 spec
+    forbidden = 403,
+    notFound = 404,
+    methodNotAllowed = 405,
+    notAcceptable = 406,
+    proxyAuthenticationRequired = 407,
+    requestTimedOut = 408,
+    conflict = 409,
+    gone = 410,
+    lengthRequired = 411,
+    preconditionFailed = 412,
+    requestEntityTooLarge = 413,
+    requestURITooLong = 414,
+    unsupportedMediaType = 415,
+    requestedRangeNotSatisfiable = 416,
+    expectationFailed = 417,
     // Server Error
-    InternalServerError = 500,
-    NotImplemented = 501,
-    BadGateway = 502,
-    ServiceUnavailable = 503,
-    GatewayTimeout = 504,
-    HTTPVersionNotSupported = 505
+    internalServerError = 500,
+    notImplemented = 501,
+    badGateway = 502,
+    serviceUnavailable = 503,
+    gatewayTimeout = 504,
+    httpVersionNotSupported = 505
     
     public var description: String { return "\(rawValue)" }
 }

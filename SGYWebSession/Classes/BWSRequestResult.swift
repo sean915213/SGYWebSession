@@ -10,17 +10,17 @@ import Foundation
 import MobileCoreServices
 
 public enum BWSResultStatus: String, CustomStringConvertible {
-    case OK = "OK",
-    ConnectionUnavailable = "ConnectionUnavailable",
-    TimedOut = "TimedOut",
-    ConnectionLost = "ConnectionLost",
-    NotAuthorized = "NotAuthorized",
-    ClientError = "ClientError",
-    ServerError = "ServerError",
-    RequestSerializationFailed = "RequestSerializationFailed",
-    ResponseDeserializationFailed = "ResponseDeserializationFailed",
-    Cancelled = "Cancelled",
-    OtherError = "OtherError"
+    case ok = "OK",
+    connectionUnavailable = "ConnectionUnavailable",
+    timedOut = "TimedOut",
+    connectionLost = "ConnectionLost",
+    notAuthorized = "NotAuthorized",
+    clientError = "ClientError",
+    serverError = "ServerError",
+    requestSerializationFailed = "RequestSerializationFailed",
+    responseDeserializationFailed = "ResponseDeserializationFailed",
+    cancelled = "Cancelled",
+    otherError = "OtherError"
     
     public var description: String { return rawValue }
 }
@@ -85,33 +85,30 @@ public class BWSRequestResult<T, U> {
             if code >= 400 && code < 500 {
                 switch httpStatusCode {
                 // Check explicitly for 401 Unauthorized
-                case .Unauthorized: return .NotAuthorized
+                case .Unauthorized: return .notAuthorized
                 // Otherwise return generic client error code
-                default: return .ClientError
+                default: return .clientError
                 }
             }
             // Check for "Server Error" domain (less than portion is just to adhere to specification since this is technically the last domain and > 600 is not expected)
             else if code >= 500 && code < 600 {
-                return .ServerError
+                return .serverError
             }
         }
         
-        // Use an error if it exists to determine status
-        if let errorCode = self.error?.code {
-            // Check for an NSURL relevant error
-            guard let relevantError = URLTaskNSErrorCode(rawValue: errorCode) else { return .OtherError }
-            // Switch on error
-            switch relevantError {
-            case .Cancelled: return .Cancelled
-            case .ConnectionTimedOut: return .TimedOut
-            case .CannotConnectToHost: return .TimedOut
-            case .ConnectionUnavailable: return .ConnectionUnavailable
-            case .LostConnection: return .ConnectionLost
-            }
-        }
+        // If no error exists return OK
+        guard let errorCode = self.error?.code else { return .ok }
         
-        // Otherwise return an OK status
-        return .OK
+        // Check for an NSURL relevant error
+        guard let relevantError = URLTaskNSErrorCode(rawValue: errorCode) else { return .otherError }
+        // Switch on error
+        switch relevantError {
+        case .cancelled: return .cancelled
+        case .connectionTimedOut: return .timedOut
+        case .cannotConnectToHost: return .timedOut
+        case .connectionUnavailable: return .connectionUnavailable
+        case .lostConnection: return .connectionLost
+        }
     }()
 }
 

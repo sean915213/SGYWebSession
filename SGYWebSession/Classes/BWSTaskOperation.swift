@@ -89,7 +89,7 @@ class BWSTaskOperation<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableO
         // CANCEL CHECK
         guard !cancelled else {
             // If we haven't assigned a result then assign cancelled
-            if requestResult == nil { requestResult = BWSRequestResult(status: .Cancelled) }
+            if requestResult == nil { requestResult = BWSRequestResult(status: .cancelled) }
             endExecution()
             return
         }
@@ -102,7 +102,7 @@ class BWSTaskOperation<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableO
         
         // If we don't have an error we should have a response or something weird happened
         guard let response = response else {
-            endExecution(BWSRequestResult(status: .OtherError))
+            endExecution(BWSRequestResult(status: .otherError))
             return
         }
         
@@ -125,7 +125,7 @@ class BWSTaskOperation<T: BWSJSONDeserializableObject, U: BWSJSONDeserializableO
             }
         } catch let error as NSError {
             // Replace result with error
-            result = BWSRequestResult<T, U>(response: response, error: error, status: .ResponseDeserializationFailed)
+            result = BWSRequestResult<T, U>(response: response, error: error, status: .responseDeserializationFailed)
         }
         
         // Complete execution
