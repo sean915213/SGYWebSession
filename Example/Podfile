@@ -1,6 +1,5 @@
 use_frameworks!
 target 'SGYWebSession_Tests' do
   pod 'SGYWebSession', :path => '../'
-  
-  pod 'SGYSwiftUtility', :git => 'https://github.com/sean915213/
+  pod 'SGYSwiftUtility', :git => 'https://github.com/sean915213/SGYSwiftUtility.git'
 end
