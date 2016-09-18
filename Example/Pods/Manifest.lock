@@ -1,16 +1,27 @@
 PODS:
-  - SGYWebSession (0.1.0)
+  - SGYSwiftUtility (0.1.0)
+  - SGYWebSession (0.1.0):
+    - SGYSwiftUtility
 
 DEPENDENCIES:
+  - SGYSwiftUtility (from `https://github.com/sean915213/SGYSwiftUtility.git`)
   - SGYWebSession (from `../`)
 
 EXTERNAL SOURCES:
+  SGYSwiftUtility:
+    :git: https://github.com/sean915213/SGYSwiftUtility.git
   SGYWebSession:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  SGYSwiftUtility:
+    :commit: cc5d317ad611c63149182d45373cd7ac9352f625
+    :git: https://github.com/sean915213/SGYSwiftUtility.git
+
 SPEC CHECKSUMS:
-  SGYWebSession: 6639f512c88879e8904f9f3f00cbad52a2d946e2
+  SGYSwiftUtility: ac059df59d20016207619adf2b67bb739b6be4fd
+  SGYWebSession: b49ac8450c1d1627df3ce8ab242bbd9c3abdcb71
 
-PODFILE CHECKSUM: 1834626cf4c28f27c13993016b4ddb9356ec45ea
+PODFILE CHECKSUM: 4af47d7602e587963e505b74b1dba9b4939e0896
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2

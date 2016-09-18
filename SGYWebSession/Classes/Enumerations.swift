@@ -1,12 +1,11 @@
 //
 //  HTTPEnumerations.swift
-//  Pods
 //
 //  Created by Sean G Young on 4/23/16.
 //
-//
 
 import Foundation
+import MobileCoreServices
 
 public enum HTTPVerb : String, CustomStringConvertible {
     case delete = "DELETE", get = "GET", post = "POST", put = "PUT"
@@ -29,6 +28,11 @@ public enum MimeType: String, CustomStringConvertible {
     pdf = "application/pdf"
     
     public var description: String { return rawValue }
+    
+    public var uti: String? {
+        guard let utiType = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, rawValue as CFString, nil) else { return nil }
+        return utiType.takeUnretainedValue() as String
+    }
 }
 
 
@@ -45,7 +49,7 @@ public enum URLTaskNSErrorCode: Int {
 // Enum with defined http 1.1 status codes.
 public enum HTTPStatusCode: Int, CustomStringConvertible {
     // Informational
-    case Continue = 100,
+    case `continue` = 100,
     switchingProtocols = 101,
     // Success
     success = 200,

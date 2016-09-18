@@ -16,7 +16,12 @@
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "8.3"
   },
-  "source_files": "SGYWebSession/Classes/**/*"
+  "source_files": "SGYWebSession/Classes/**/*",
+  "dependencies": {
+    "SGYSwiftUtility": [
+
+    ]
+  }
 }
