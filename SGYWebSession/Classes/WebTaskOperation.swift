@@ -125,7 +125,7 @@ class WebTaskOperation<T: WebResultProtocol> : AsyncOperation, WebOperation {
             defer { endExecution(T(status: status, response: response as? HTTPURLResponse)) }
             
             // If not a known URLTask error code then assign as other
-            guard let code = (error as? NSError)?.code, let urlError = URLTaskNSErrorCode(rawValue: code) else {
+            guard let code = (error as NSError?)?.code, let urlError = URLTaskNSErrorCode(rawValue: code) else {
                 status = .otherError(error)
                 return
             }
